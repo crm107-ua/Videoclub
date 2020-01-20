@@ -164,6 +164,27 @@ class FilmController extends Controller
         return view("pelicula.pelicula.editarPelicula",compact('pelicula'));
     }
 
+
+    /**
+     * Display trailers.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function trailers(){
+        return view('pelicula.trailers.trailers');
+    }
+
+    /**
+     * Display film creator.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function addFilmForm(){
+        return view('pelicula.pelicula.agregarPelicula');
+    }
+
     /**
      * Update the specified resource in storage.
      *
@@ -186,6 +207,8 @@ class FilmController extends Controller
     {
         //
     }
+
+    
 
     protected function vaidateImg(){
         $target_dir = "images/peliculas/";

@@ -8,6 +8,10 @@ use Illuminate\Http\Request;
 
 class CuentaController extends Controller
 {
+    public function index(){
+        return view('usuario.cuenta.cuenta');
+    }
+    
     function nombre(Request $request){
         $id = $request->input('id');
         $nombre = $request->input('nombre');

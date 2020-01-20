@@ -1,17 +1,19 @@
-<?php use App\Http\Controllers\CommentController; use App\Http\Controllers\UserController;?>
+<?php use App\Http\Controllers\CommentController;?>
 <div class="pt-5">
   <h3 class="mb-5">{{CommentController::getNumberComents($pelicula->id)}} Comments</h3>
   <ul class="comment-list">
-    @foreach ( CommentController::getComments($pelicula->id) as $comentario )
+    @foreach ( $pelicula->comentarios as $comentario )
     <li class="comment">
       <div class="vcard">
-        <img src="../images/perfiles/{{UserController::getUser($comentario->id_usuario)->imagen}}" style="border-radius: 50%;" height="50" width="50">
+        @if($comentario->user->imagen)
+          <img src="../images/perfiles/{{$comentario->user->imagen}}" style="border-radius: 50%;" height="50" width="50">
+        @endif
       </div>
       <div class="comment-body">
-        <h4>{{UserController::getUser($comentario->id_usuario)->name}}</h4>
-        <div class="meta">{{$comentario->fecha}}</div>
+        <h4>{{$comentario->user->first_name}}</h4>
+        <div class="meta">{{$comentario->fecha}} | ID: {{$comentario->id}}</div>
         @if(Auth::check())
-            @if(Auth::user()->id==1)
+            @if(Auth::user()->rol==1)
             <form action="{{ route('eliminarComentario') }}" method="post">
             @csrf
                 <input name="id" type="hidden" value="{{$comentario->id}}"></input>

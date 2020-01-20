@@ -15,8 +15,8 @@ class AgregarPelicula
      */
     public function handle($request, Closure $next)
     {
-        if ($request->user()->id != 1) {
-            abort(403, "No tienes permiso para administrar peliculas");
+        if ($request->user()->rol != 1) {
+            abort(403, "No tienes permisos suficientes");
         }
         return $next($request);
     }

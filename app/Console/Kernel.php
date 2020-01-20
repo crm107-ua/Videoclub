@@ -13,7 +13,9 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        Commands\EliminarComentario::class,
+        Commands\CrearCategoria::class,
+        Commands\Publicidad::class,
     ];
 
     /**

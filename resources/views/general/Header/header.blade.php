@@ -7,7 +7,7 @@
               <a href="#"><span class="fa fa-facebook"></span></a>
               <a href="#"><span class="fa fa-instagram"></span></a>
               @if(Auth::check())
-              <a href="/cuenta"><span class="container">{{Auth::user()->name}}</span></a>
+              <a href="/cuenta"><span class="container">{{Auth::user()->first_name}}</span></a>
                   @if(Auth::user()->id==1)
                     <a href="/administrar"><span class="container">Administrar</span></a>   
                   @endif
@@ -20,11 +20,13 @@
                 @if(!Auth::check())
                   @include('usuario.login.login')
                 @else
-                  <a href="/cuenta"><img src="../images/perfiles/{{ Auth::user()->imagen }}" style="border-radius: 50%;" height="40" width="40"></a>
-
+                    @if(Auth::user()->imagen)
+                      <a href="/cuenta"><img src="../images/perfiles/{{ Auth::user()->imagen }}" style="border-radius: 50%;" height="40" width="40"></a>
+                    @endif
                   <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     <span class="container" style="color:white">{{ __('Cerrar sesion') }}</span>
                   </a>
+
                   <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                       @csrf
                   </form>

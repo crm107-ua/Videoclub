@@ -34,6 +34,12 @@
 
     </section>
 
+     <!-- Paginacion -->
+
+    {!! $films->links() !!}
+
+    <!-- End Paginacion -->
+
     <section class="site-section py-sm">
       <div class="container">
         <div class="row">

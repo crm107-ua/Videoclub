@@ -15,15 +15,17 @@ Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('home');
 
+Route::get('/login', 'HomeController@index')->name('login');
+
 Route::get('/categoria/{id}', 'CategoryController@index');
 
 Route::get('/pelicula/{id}', 'FilmController@index')->name('pelicula');
 
-Route::get('/cuenta', function () {return view('usuario.cuenta.cuenta');})->middleware('auth');
+Route::get('/cuenta', 'CuentaController@index')->middleware('auth');
 
 Route::get("/administrar","AdminController@index")->middleware('auth')->middleware('admin');
 
-Route::get('/trailers', function () {return view('pelicula.trailers.trailers');});
+Route::get('/trailers', 'FilmController@trailers');
 
 Route::get('/comentar', 'HomeController@index');
 Route::post("/comentar","CommentController@create")->name('comentar');
@@ -31,33 +33,42 @@ Route::post("/comentar","CommentController@create")->name('comentar');
 Route::get('/eliminarComentario', 'HomeController@index');
 Route::post("/eliminarComentario","CommentController@delete")->name('eliminarComentario');
 
-Route::get('/editarNombre', function () {return view('usuario.cuenta.cuenta');})->middleware('auth');
+Route::get('/editarNombre', 'UserController@index')->middleware('auth');
 Route::post("/editarNombre","CuentaController@nombre")->name('name');
 
-Route::get('/editarEmail', function () {return view('usuario.cuenta.cuenta');})->middleware('auth');
+Route::get('/editarEmail', 'UserController@index')->middleware('auth');
 Route::post("/editarEmail","CuentaController@email")->name('email');
 
-Route::get('/editarPassword', function () {return view('usuario.cuenta.cuenta');})->middleware('auth');
+Route::get('/editarPassword', 'UserController@index')->middleware('auth');
 Route::post("/editarPassword","CuentaController@password")->name('password');
 
-Route::get('/registro', function () {return view('usuario.registro.registro');});
+Route::get('/registro', 'UserController@create');
 Route::post("/registro","Auth\RegisterController@create")->name('registro');
 
-Route::get('/agregar', function () { return view('pelicula.pelicula.agregarPelicula');})->middleware('auth')->middleware('admin');
+Route::get('/agregar', 'FilmController@addFilmForm')->middleware('auth')->middleware('admin');
 Route::post("/agregar","FilmController@create")->name('agregar');
 
 Route::get('/eliminar', 'HomeController@index');
 Route::post("/eliminar","FilmController@delete")->name('eliminar');
 
 Route::post("/contacto","MailController@contacto")->name('contacto');
-Route::get('/contacto', function () {return view('general.Contacto.contact');});
+Route::get('/contacto', 'MailController@index');
 
 Route::post("/recordar","MailController@remember")->name('recordar');
-Route::get('/recordar', function () {return view('usuario.remember.remember');});
+Route::get('/recordar', 'MailController@show');
 
 Route::get("/editar/{id}","FilmController@show")->middleware('auth')->middleware('admin');
 Route::get('/editar', 'HomeController@index');
 Route::post("/editar","FilmController@edit")->name('editar');
+
+Route::get('/redirect', 'SocialAuthFacebookController@redirect');
+Route::get('/callback', 'SocialAuthFacebookController@callback');
+
+Route::post('/send','ChatController@send');
+Route::post('/saveToSession','ChatController@saveToSession');
+Route::post('/deleteSession','ChatController@deleteSession');
+Route::post('/getOldMessage','ChatController@getOldMessage');
+
 
 
 

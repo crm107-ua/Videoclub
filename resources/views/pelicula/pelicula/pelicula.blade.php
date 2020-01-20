@@ -1,5 +1,4 @@
-<?php use App\Http\Controllers\CategoryController; 
-      use App\Http\Controllers\CommentController;?>
+<?php use App\Http\Controllers\CommentController; ?>
 <!doctype html>
 <html lang="en">
 @include('general.Head.head')
@@ -13,7 +12,7 @@
           <div class="col-md-12 col-lg-8 main-content">
             <h1 class="mb-4">{{ $pelicula->titulo }}</h1> 
             <div class="post-meta">
-                        <span class="category">{{ CategoryController::getCategoryName($pelicula->cat_id) }}</span>
+                        <span class="category">{{ $pelicula->cat->nombre }}</span>
                         @if(Auth::check() && Auth::user()->id==1)
                           <a href="/editar/{{$pelicula->id}}" class="category">Editar</a><br><br>
                           <form action="{{ route('eliminar') }}" method="post">
@@ -33,7 +32,13 @@
 	              </div>
 	            </div>
 			      </div>
-            @include('pelicula.trailers.trailer')
+            @if(isset($pelicula->trailer))
+              @include('pelicula.trailers.trailer')
+            @endif
+            
+            @if(Auth::check())
+              @include('chat.chat')
+            @endif
           </div>
           <div class="col-md-12 col-lg-4 sidebar">
 
@@ -54,8 +59,9 @@
           </div>
         
           <!-- MUESTRA LOS COMENTARIOS --> 
-          @include('pelicula.comentarios.comentarios')
-
+          @if(CommentController::getNumberComents($pelicula->id)>0)
+            @include('pelicula.comentarios.comentarios')
+          @endif
 
           <!-- CREAR COMENTARIOS --> 
           @include('pelicula.comentarios.crearComentario')

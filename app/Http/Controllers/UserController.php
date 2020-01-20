@@ -19,7 +19,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        return view('usuario.cuenta.cuenta');
     }
 
     /**
@@ -60,7 +60,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('usuario.registro.registro');
     }
 
     /**

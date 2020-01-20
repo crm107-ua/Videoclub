@@ -23,7 +23,7 @@ class CategoryController extends Controller
         $lastFilms = Pelicula::orderByRaw('id DESC')->limit(3)->get();
         $searchCategory = $this->checkCategory($id);
         if($searchCategory){
-            $films = Pelicula::where('cat_id',Categoria::select('id')->where('id', $id)->get()->first()->id)->get();
+            $films = Pelicula::where('cat_id',Categoria::select('id')->where('id', $id)->get()->first()->id)->paginate(6);
             return view('general.Home.home', compact('bannerFilms','films','lastFilms','comentariosCritica','categorias','searchCategory'));        
         }else{
             abort(403, 'Categoria no encontrada');   

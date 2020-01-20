@@ -7,6 +7,7 @@ use DB;
 use Hash;
 use Exception;
 use App\User;
+use Illuminate\Support\Str;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
@@ -66,18 +67,33 @@ class RegisterController extends Controller
         if(!$this->vaidateImg()){
             $error = "La imagen no es apta";
         }
+
+        if(!$this->validateMail($email)){
+            $error = "Ya existe un usuario asociado a este email";
+        }
+
         if (!isset($error)) {
             User::insert(
                 [
                     'name' => $name, 
                     'email' => $email,
                     'password' => Hash::make($password),
-                    'imagen' => $_FILES["fileToUpload"]["name"]
+                    'imagen' => $_FILES["fileToUpload"]["name"],
+                    'api_token' => Str::random(60),
+                    'rol' => 2
                 ]
             );
             $error = "Usuario registrado correctamente";
         }
         return view("usuario.registro.registro",compact('error'));
+    }
+
+    public function validateMail($email){
+        if(User::where('email', $email)->count() > 0){
+            return false; 
+        }else{
+            return true;
+        }
     }
 
     protected function vaidateImg(){

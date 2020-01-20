@@ -31,7 +31,7 @@ class HomeController extends Controller
         $comentariosCritica = Comentario::orderByRaw('id DESC')->limit(4)->get();
         $categorias = Categoria::all();
         $lastFilms = Pelicula::orderByRaw('id DESC')->limit(3)->get();
-        $films = Pelicula::all();
+        $films = Pelicula::paginate(6);
         return view('general.Home.home', compact('bannerFilms','films','lastFilms','comentariosCritica','categorias'));  
     }
 }

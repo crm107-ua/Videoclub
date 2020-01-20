@@ -7,6 +7,16 @@ use App\Http\Controllers\UserController;
 
 class MailController extends Controller
 {
+    //Return contact form
+    public function index(){
+        return view('general.Contacto.contact');
+    }
+
+    //Return remember password form
+    public function show(){
+        return view('usuario.remember.remember');
+    }
+    
     /**
      * Display a listing of the resource.
      *
@@ -71,7 +81,7 @@ class MailController extends Controller
             $mail->Subject = "Hola! Hemos restablecido tu password";
             $mail->MsgHTML("Esta va a ser tu nueva contraseña: ".$pass);
         }else{
-            $address = 'trollers2019@gmail.com';
+            $address = 'caromamusic@gmail.com';
             $mail->Subject = "Mensaje de contacto";
             $mail->MsgHTML("Mensaje recibido de:".$name.", email:".$email.", texto:".$texto);
         }
@@ -79,4 +89,5 @@ class MailController extends Controller
         $mail->AddAddress($address, "Videoclub");
         $resul = $mail->Send();
     }
+
 }
